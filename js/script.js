@@ -22,18 +22,22 @@ function removeActiveClasses() {
 
 hamburgerMenu.addEventListener('click', toggleMenu);
 
+
 document.addEventListener('DOMContentLoaded', function () {
-  const menuItems = document.querySelectorAll('.menu__item--has-submenu');
+  const menuItems = document.querySelectorAll('.menu__item');
   menuItems.forEach(item => {
     item.addEventListener('click', function (event) {
-      event.stopPropagation();
-      menuItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.querySelector('.menu__submenu').classList.remove('is__active');
-        }
-      });
+      event.stopPropagation(); // Stop the event from bubbling up
       const sublist = item.querySelector('.menu__submenu');
-      sublist.classList.toggle('is__active');
+      if (sublist) {
+        menuItems.forEach(otherItem => {
+          const otherSublist = otherItem.querySelector('.menu__submenu');
+          if (otherSublist && otherSublist !== sublist) {
+            otherSublist.classList.remove('is__active');
+          }
+        });
+        sublist.classList.toggle('is__active');
+      }
     });
 
     const subCloseLinks = item.querySelectorAll('.nav__close');
@@ -42,6 +46,16 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         event.stopPropagation();
         closeMenu();
+      });
+    });
+
+    const backLinks = item.querySelectorAll('.submenu__back');
+    backLinks.forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const submenu = link.closest('.menu__submenu');
+        submenu.classList.remove('is__active');
       });
     });
   });
