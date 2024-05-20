@@ -1,22 +1,27 @@
+
 const hamburgerMenus = document.querySelectorAll('.menu__toggle');
 const offpageHeader = document.querySelector('.header__offpage');
 
 function toggleMenu() {
+  // Toggle the 'active' class on all hamburger menus (main header and first page mobile header)
   hamburgerMenus.forEach(menu => menu.classList.toggle('active'));
   offpageHeader.classList.toggle('show');
 }
 
 function closeMenu() {
+  // Remove the 'active' class from all hamburger menus (main header and first page mobile header)
   hamburgerMenus.forEach(menu => menu.classList.remove('active'));
   offpageHeader.classList.remove('show');
   removeActiveClasses();
 }
 
 function removeActiveClasses() {
-  const menuItems = document.querySelectorAll('.menu__item--has-submenu');
+  const menuItems = document.querySelectorAll('.menu__item');
   menuItems.forEach(item => {
     const sublist = item.querySelector('.menu__submenu');
-    sublist.classList.remove('is__active');
+    if (sublist) {
+      sublist.classList.remove('is__active');
+    }
   });
 }
 
@@ -60,6 +65,45 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+
+document.addEventListener('DOMContentLoaded', function () {
+  const menuItems = document.querySelectorAll('.menu__item--has-submenu');
+  menuItems.forEach(item => {
+    const subMenuLink = item.querySelector('a'); // Select the first <a> element within the menu item
+    subMenuLink.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default link behavior
+      event.stopPropagation(); // Stop the event from bubbling up
+      menuItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.querySelector('.menu__submenu').classList.remove('is__active');
+        }
+      });
+      const sublist = item.querySelector('.menu__submenu');
+      sublist.classList.toggle('is__active');
+    });
+
+    const subCloseLinks = item.querySelectorAll('.nav__close');
+    subCloseLinks.forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeMenu();
+      });
+    });
+
+    const backLinks = item.querySelectorAll('.submenu__back a');
+    backLinks.forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const submenu = link.closest('.menu__submenu');
+        submenu.classList.remove('is__active');
+      });
+    });
+  });
+});
+
+
 const announcementCloseButton = document.querySelector('.announcement__close');
 const announcement = document.querySelector('.header__announcement');
 
@@ -79,11 +123,12 @@ function initializeSwiper(selector, options = {}) {
     autoplay: {         
       delay: 3000,
     },
+    autoHeight:true,
     speed: 800,          
     navigation: {        
       nextEl: null,      
       prevEl: null,      
-    },
+    },    
   };
 
   // Merge default options with provided options
@@ -177,4 +222,3 @@ function changeTabs(e) {
     .querySelector(`#${target.getAttribute("aria-controls")}`)
     .removeAttribute("hidden");
 }
-
