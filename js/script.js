@@ -123,7 +123,6 @@ function initializeSwiper(selector, options = {}) {
     autoplay: {         
       delay: 3000,
     },
-    autoHeight:true,
     speed: 800,          
     navigation: {        
       nextEl: null,      
