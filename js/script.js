@@ -1,13 +1,13 @@
-const hamburgerMenu = document.querySelector('.menu__toggle');
+const hamburgerMenus = document.querySelectorAll('.menu__toggle');
 const offpageHeader = document.querySelector('.header__offpage');
 
 function toggleMenu() {
-  hamburgerMenu.classList.toggle('active');
+  hamburgerMenus.forEach(menu => menu.classList.toggle('active'));
   offpageHeader.classList.toggle('show');
 }
 
 function closeMenu() {
-  hamburgerMenu.classList.remove('active');
+  hamburgerMenus.forEach(menu => menu.classList.remove('active'));
   offpageHeader.classList.remove('show');
   removeActiveClasses();
 }
@@ -20,8 +20,7 @@ function removeActiveClasses() {
   });
 }
 
-hamburgerMenu.addEventListener('click', toggleMenu);
-
+hamburgerMenus.forEach(menu => menu.addEventListener('click', toggleMenu));
 
 document.addEventListener('DOMContentLoaded', function () {
   const menuItems = document.querySelectorAll('.menu__item');
