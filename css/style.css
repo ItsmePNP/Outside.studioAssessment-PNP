@@ -130,6 +130,7 @@
     position: absolute;
     min-height: 100vh;
     width: 100%;
+    top:0;
     overflow-y: scroll;
     background-color: var(--color-white);
     padding: 26px var(--spacing-xlarge) var(--spacing-xxlarge);
@@ -153,7 +154,7 @@
     transition: transform 0.4s ease-in-out 0.2s;
   }
 
-   .main-header--first-screen {
+  .main-header--first-screen {
   display: flex;
   justify-content: space-between;
   position: relative;
